@@ -13,7 +13,7 @@
 4. **Ludo Online** — Online multiplayer board game recreating classic mechanics for the web.
    - [Repository](https://github.com/sh4dabexe/LudoOnline) • [Live Demo](https://ludo-online-phi.vercel.app/)
 5. **Birthday Present** — Interactive celebratory web surprise with custom animations.
-   - [Repository](https://github.com/sh4dabexe/BirthdayPresent)
+   - [Repository](https://github.com/sh4dabexe/BirthdayPresent) • [Live Demo](https://hbdpresent.netlify.app/)
 6. **Flappy Bird Clone** — Recreation of classic arcade physics and game loops using Python / Pygame.
    - [Repository](https://github.com/sh4dabexe/Flappy-Bird)
 

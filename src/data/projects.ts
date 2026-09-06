@@ -74,7 +74,7 @@ export const projects: Project[] = [
     description: "A beautifully designed birthday surprise website featuring smooth animations, interactive elements, and a personalized user experience.",
     tags: ["HTML", "CSS", "JavaScript", "Choreography"],
     githubUrl: "https://github.com/sh4dabexe/BirthdayPresent",
-    // Demo intentionally TBD per spec
+    demoUrl: "https://hbdpresent.netlify.app/",
     storyHeading: "Surprise through subtle motion.",
     storyText: "Designing personal celebratory websites that evoke wonder through interactive sequences.",
   },
