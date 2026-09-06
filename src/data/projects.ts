@@ -87,7 +87,7 @@ export const projects: Project[] = [
     description: "Recreated the classic Flappy Bird game from scratch. Because why not? Turns out — pretty fun to build.",
     tags: ["Python", "Pygame", "Game Loop", "Arcade Physics"],
     githubUrl: "https://github.com/sh4dabexe/Flappy-Bird",
-    // Demo intentionally TBD per spec
+    demoUrl: "https://flybirdhop.netlify.app/",
     storyHeading: "Revisiting classic game mechanics.",
     storyText: "Rebuilding classic arcade mechanics in Python to study physics, collision, and player feedback.",
   }

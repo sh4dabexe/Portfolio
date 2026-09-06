@@ -15,7 +15,7 @@
 5. **Birthday Present** — Interactive celebratory web surprise with custom animations.
    - [Repository](https://github.com/sh4dabexe/BirthdayPresent) • [Live Demo](https://hbdpresent.netlify.app/)
 6. **Flappy Bird Clone** — Recreation of classic arcade physics and game loops using Python / Pygame.
-   - [Repository](https://github.com/sh4dabexe/Flappy-Bird)
+   - [Repository](https://github.com/sh4dabexe/Flappy-Bird) • [Live Demo](https://flybirdhop.netlify.app/)
 
 ---
 
