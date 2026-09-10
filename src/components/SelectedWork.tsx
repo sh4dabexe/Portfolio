@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Link2, Copy } from 'lucide-react';
 import { projects, type Project } from '../data/projects';
 import { GithubIcon } from './Icons';
 
@@ -74,47 +74,84 @@ export const SelectedWork: React.FC = () => {
 
       case 'cutter':
         return (
-          <div className="w-full h-full min-h-[320px] sm:min-h-[420px] bg-[#0c0c14] relative overflow-hidden flex items-center justify-center p-6 sm:p-10 select-none group-hover:scale-[1.02] transition-transform duration-700">
-            {/* Canvas Crop Viewport Box */}
-            <div className="relative w-full max-w-sm rounded-2xl bg-[#141420] border border-white/10 p-5 shadow-2xl space-y-4">
-              {/* Header Bar */}
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+          <div className="w-full h-full min-h-[320px] sm:min-h-[420px] bg-[#0c0c14] relative overflow-hidden flex items-center justify-center p-5 sm:p-8 select-none group-hover:scale-[1.02] transition-transform duration-700">
+            {/* Subtle radial glow */}
+            <div className="absolute w-64 h-64 rounded-full bg-[#ff3366]/10 blur-3xl pointer-events-none" />
+
+            {/* URL Shortener & Analytics Dashboard Preview */}
+            <div className="relative w-full max-w-sm rounded-2xl bg-[#141420] border border-white/10 p-4 sm:p-5 shadow-2xl space-y-3.5">
+              {/* Console / App Header */}
+              <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#ff3366]" />
-                  <span className="text-xs font-mono text-white font-medium">Cutter_Workspace.png</span>
+                  <div className="flex gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#ff3366]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#f1c40f]/80" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#2ecc71]/80" />
+                  </div>
+                  <span className="text-[11px] font-mono text-white/70 font-medium ml-1">cutter.black/app</span>
                 </div>
-                <span className="text-[10px] font-mono text-[#8e8e9f]">1920 × 1080</span>
-              </div>
-
-              {/* Crop Grid Preview */}
-              <div className="relative h-36 rounded-xl border border-dashed border-[#b04090]/60 bg-[#08080c] flex items-center justify-center overflow-hidden group/crop">
-                {/* Rule of Thirds Grid */}
-                <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 pointer-events-none">
-                  {Array.from({ length: 9 }).map((_, i) => (
-                    <div key={i} className="border border-white/[0.04]" />
-                  ))}
-                </div>
-
-                {/* Corner Drag Handles */}
-                <span className="absolute top-1 left-1 w-2.5 h-2.5 border-t-2 border-l-2 border-[#ff3366]" />
-                <span className="absolute top-1 right-1 w-2.5 h-2.5 border-t-2 border-r-2 border-[#ff3366]" />
-                <span className="absolute bottom-1 left-1 w-2.5 h-2.5 border-b-2 border-l-2 border-[#ff3366]" />
-                <span className="absolute bottom-1 right-1 w-2.5 h-2.5 border-b-2 border-r-2 border-[#ff3366]" />
-
-                <div className="text-center space-y-1 z-10">
-                  <span className="text-3xl block filter drop-shadow">✂</span>
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-white/80 font-semibold block">
-                    FAST CROP & RESIZE
-                  </span>
+                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#2ecc71]/15 border border-[#2ecc71]/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#2ecc71] animate-pulse" />
+                  <span className="text-[9px] font-mono text-[#2ecc71] font-semibold tracking-wider">LIVE ENGINE</span>
                 </div>
               </div>
 
-              {/* Action Controls */}
-              <div className="flex items-center justify-between pt-1">
-                <span className="text-[11px] font-mono text-[#8e8e9f]">Aspect: 16:9 Custom</span>
-                <span className="px-2.5 py-1 rounded bg-[#ff3366]/20 border border-[#ff3366]/40 text-[10px] font-mono text-white font-semibold">
-                  EXPORT READY
+              {/* Long URL Input Simulation */}
+              <div className="space-y-1">
+                <div className="flex items-center justify-between text-[10px] font-mono text-[#8e8e9f]">
+                  <span>ORIGINAL URL</span>
+                  <span className="text-white/40">78 chars</span>
+                </div>
+                <div className="px-3 py-2 rounded-xl bg-[#08080c] border border-white/10 flex items-center justify-between font-mono text-[11px] text-white/50 overflow-hidden">
+                  <span className="truncate pr-2">https://github.com/sh4dabexe/portfolio/analytics/v2/stream...</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/10 text-white/60 shrink-0">LONG</span>
+                </div>
+              </div>
+
+              {/* Cut & Shorten Action Divider */}
+              <div className="flex items-center justify-center gap-2 py-0.5">
+                <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-white/15" />
+                <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#ff3366]/20 border border-[#ff3366]/40 text-[#ff3366] text-[10px] font-mono font-bold">
+                  <Link2 size={11} />
+                  <span>CUT & SHORTEN</span>
+                  <span className="text-white/60 font-normal">(-73%)</span>
+                </div>
+                <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-white/15" />
+              </div>
+
+              {/* Shortened URL Output Box */}
+              <div className="p-3 rounded-xl bg-gradient-to-r from-[#ff3366]/15 via-[#b04090]/10 to-transparent border border-[#ff3366]/40 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className="w-7 h-7 rounded-lg bg-[#ff3366]/20 border border-[#ff3366]/40 flex items-center justify-center text-[#ff3366] shrink-0">
+                    <Link2 size={14} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-mono font-bold text-white tracking-wide truncate">
+                      cutter.black/<span className="text-[#ff3366]">sh4dab</span>
+                    </p>
+                    <p className="text-[9px] font-mono text-[#8e8e9f]">Redirect speed: 18ms</p>
+                  </div>
+                </div>
+                <span className="px-2 py-1 rounded-md bg-white text-[#08080c] text-[10px] font-mono font-bold shrink-0 flex items-center gap-1 shadow-md">
+                  <Copy size={10} />
+                  <span>COPY</span>
                 </span>
+              </div>
+
+              {/* Analytics Telemetry Strip */}
+              <div className="pt-1 grid grid-cols-3 gap-2 text-center border-t border-white/10">
+                <div className="bg-[#08080c]/60 p-1.5 rounded-lg border border-white/5">
+                  <span className="text-[8px] font-mono uppercase text-[#8e8e9f] block">Total Clicks</span>
+                  <span className="text-xs font-bold font-mono text-white">2,847</span>
+                </div>
+                <div className="bg-[#08080c]/60 p-1.5 rounded-lg border border-white/5">
+                  <span className="text-[8px] font-mono uppercase text-[#8e8e9f] block">CTR Rate</span>
+                  <span className="text-xs font-bold font-mono text-[#2ecc71]">+38.4%</span>
+                </div>
+                <div className="bg-[#08080c]/60 p-1.5 rounded-lg border border-white/5">
+                  <span className="text-[8px] font-mono uppercase text-[#8e8e9f] block">Uptime</span>
+                  <span className="text-xs font-bold font-mono text-[#c8a0e0]">99.98%</span>
+                </div>
               </div>
             </div>
           </div>
