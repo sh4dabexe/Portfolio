@@ -4,7 +4,6 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { PipelineSection } from './components/PipelineSection';
 import { SelectedWork } from './components/SelectedWork';
-import { Explorations } from './components/Explorations';
 import { AboutSection } from './components/AboutSection';
 import { ClosingCTA } from './components/ClosingCTA';
 import { Footer } from './components/Footer';
@@ -28,11 +27,8 @@ export const App: React.FC = () => {
         {/* Technical Pipeline Centerpiece (IDEAS -> BUILD -> SHIP) */}
         <PipelineSection />
 
-        {/* 6 Featured Projects Editorial Bento Grid */}
+        {/* Featured Projects Editorial Bento Grid */}
         <SelectedWork />
-
-        {/* Visual Playground & Interactive Experiments */}
-        <Explorations />
 
         {/* Discipline & Capabilities */}
         <AboutSection />
