@@ -30,7 +30,7 @@ const capabilities = [
 ];
 
 const stats = [
-  { value: '06', label: 'Featured Projects Built' },
+  { value: '09', label: 'Featured Projects Built' },
   { value: '100%', label: 'Responsive Cross-Device Focus' },
   { value: '∞', label: 'Continuous Learning Mode' },
 ];
