@@ -1,42 +1,45 @@
-import React, { useState } from 'react';
-import { LoadingScreen } from './components/LoadingScreen';
+import React from 'react';
+import { AuroraCanvas } from './components/AuroraCanvas';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { PipelineSection } from './components/PipelineSection';
-import { SelectedWork } from './components/SelectedWork';
+import { SectionDivider } from './components/SectionDivider';
 import { AboutSection } from './components/AboutSection';
+import { SelectedWork } from './components/SelectedWork';
+import { PipelineSection } from './components/PipelineSection';
 import { ClosingCTA } from './components/ClosingCTA';
 import { Footer } from './components/Footer';
 
 export const App: React.FC = () => {
-  const [loaded, setLoaded] = useState(false);
-
   return (
-    <div className="min-h-screen bg-[#08080c] text-[#f5f5f7] font-sans selection:bg-[#ff3366]/30 selection:text-white relative">
-      {/* Design 1 Loading Screen (000 -> 100 counter over 2.7s) */}
-      <LoadingScreen onComplete={() => setLoaded(true)} />
+    <div className="min-h-screen bg-[#050505] text-[#f5f5f5] font-sans selection:bg-[#ef4444] selection:text-black relative">
+      {/* Atmospheric Ambient Noir & Crimson Op-Art Canvas */}
+      <AuroraCanvas />
 
-      {/* Floating Navbar */}
+      {/* Floating Glass Navigation Dock */}
       <Navbar />
 
-      {/* Natural Vertical Scrolling Experience with Rich Animations */}
-      <main className={`transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-80'}`}>
-        {/* Editorial Hero with Shadab's Portrait and Glowing Conic Halo */}
+      {/* Main Portfolio Content */}
+      <main className="relative z-10">
+        {/* Stage Grid Hero with Background Wordmark & Cutout */}
         <Hero />
 
-        {/* Technical Pipeline Centerpiece (IDEAS -> BUILD -> SHIP) */}
-        <PipelineSection />
-
-        {/* Featured Projects Editorial Bento Grid */}
-        <SelectedWork />
-
-        {/* Discipline & Capabilities */}
+        {/* Section 01: About & Philosophy */}
+        <SectionDivider coord="// 01.00 SEC_ABOUT" index="INDEX [01 / 05]" />
         <AboutSection />
 
-        {/* Closing Marquee & Direct Contact */}
+        {/* Section 02: Flagship Deployments & Matrix */}
+        <SectionDivider coord="// 02.00 SEC_FLAGSHIPS" index="INDEX [02 / 05]" />
+        <SelectedWork />
+
+        {/* Section 03: Technical Pipeline & Architecture */}
+        <SectionDivider coord="// 03.00 SEC_PIPELINE" index="INDEX [03 / 05]" />
+        <PipelineSection />
+
+        {/* Section 04: Direct Dispatch & Contact */}
+        <SectionDivider coord="// 04.00 SEC_DISPATCH" index="INDEX [04 / 05]" />
         <ClosingCTA />
 
-        {/* Minimal Editorial Footer */}
+        {/* Section 05: Minimal Editorial Footer */}
         <Footer />
       </main>
     </div>

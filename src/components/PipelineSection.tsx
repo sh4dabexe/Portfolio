@@ -1,16 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-
-const brands = [
-  { name: 'React', badge: '19.x' },
-  { name: 'TypeScript', badge: 'ESNext' },
-  { name: 'Vite', badge: 'Engine' },
-  { name: 'Python', badge: 'Logic' },
-  { name: 'Tailwind CSS', badge: 'Styling' },
-  { name: 'GSAP', badge: 'Motion' },
-];
+import React, { useState, useEffect, useRef } from 'react';
+import { skills } from '../data/skills';
+import { Code, Layout, Film, Terminal, Zap } from 'lucide-react';
 
 export const PipelineSection: React.FC = () => {
+  const [activeSkillId, setActiveSkillId] = useState<string>('frontend-dev');
+
+  // Pipeline circuit refs
   const pipelineRef = useRef<HTMLDivElement>(null);
   const nodeStackRef = useRef<HTMLDivElement>(null);
   const nodeXRef = useRef<HTMLDivElement>(null);
@@ -18,7 +13,6 @@ export const PipelineSection: React.FC = () => {
   const glowPathRef = useRef<SVGPathElement>(null);
   const corePathRef = useRef<SVGPathElement>(null);
   const gradientRef = useRef<SVGLinearGradientElement>(null);
-  const splashRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const pipeline = pipelineRef.current;
@@ -28,9 +22,8 @@ export const PipelineSection: React.FC = () => {
     const glowPath = glowPathRef.current;
     const corePath = corePathRef.current;
     const gradient = gradientRef.current;
-    const splash = splashRef.current;
 
-    if (!pipeline || !nodeStack || !nodeX || !nodeShield || !glowPath || !corePath || !gradient || !splash) {
+    if (!pipeline || !nodeStack || !nodeX || !nodeShield || !glowPath || !corePath || !gradient) {
       return;
     }
 
@@ -55,203 +48,214 @@ export const PipelineSection: React.FC = () => {
     computePath();
     window.addEventListener('resize', computePath);
 
-    let loopId: number;
-    let state: 'p1' | 'splash' | 'p2' | 'idle' = 'p1';
-    let lastStateChange = performance.now();
+    let frameId: number;
+    let progress = 0;
 
-    const loop = (now: number) => {
-      const elapsed = now - lastStateChange;
-
-      if (state === 'p1') {
-        const duration = 800;
-        const p = Math.min(1, elapsed / duration) * 0.5;
-        const center = p * 100;
-        gradient.setAttribute('x1', `${center - 8}%`);
-        gradient.setAttribute('x2', `${center + 8}%`);
-        glowPath.style.opacity = '0.7';
-        corePath.style.opacity = '1';
-
-        if (p < 0.4) {
-          nodeStack.classList.add('active');
-        } else {
-          nodeStack.classList.remove('active');
-        }
-
-        if (elapsed >= duration) {
-          state = 'splash';
-          lastStateChange = now;
-          glowPath.style.opacity = '0';
-          corePath.style.opacity = '0';
-          splash.classList.add('animate');
-        }
-      } else if (state === 'splash') {
-        const duration = 800;
-        if (elapsed >= duration) {
-          state = 'p2';
-          lastStateChange = now;
-          splash.classList.remove('animate');
-          glowPath.style.opacity = '0.7';
-          corePath.style.opacity = '1';
-        }
-      } else if (state === 'p2') {
-        const duration = 800;
-        const p = 0.5 + Math.min(1, elapsed / duration) * 0.5;
-        const center = p * 100;
-        gradient.setAttribute('x1', `${center - 8}%`);
-        gradient.setAttribute('x2', `${center + 8}%`);
-
-        if (p > 0.6) {
-          nodeShield.classList.add('active');
-        }
-
-        if (elapsed >= duration) {
-          nodeShield.classList.remove('active');
-          state = 'idle';
-          lastStateChange = now;
-          glowPath.style.opacity = '0';
-          corePath.style.opacity = '0';
-        }
-      } else if (state === 'idle') {
-        const duration = 1000;
-        if (elapsed >= duration) {
-          state = 'p1';
-          lastStateChange = now;
-        }
-      }
-
-      loopId = requestAnimationFrame(loop);
+    const animatePulse = () => {
+      progress = (progress + 0.008) % 1;
+      const center = progress * 100;
+      gradient.setAttribute('x1', `${center - 10}%`);
+      gradient.setAttribute('x2', `${center + 10}%`);
+      frameId = requestAnimationFrame(animatePulse);
     };
 
-    loopId = requestAnimationFrame(loop);
+    frameId = requestAnimationFrame(animatePulse);
 
     return () => {
       window.removeEventListener('resize', computePath);
-      cancelAnimationFrame(loopId);
+      cancelAnimationFrame(frameId);
     };
   }, []);
 
+  const activeSkill = skills.find((s) => s.id === activeSkillId) || skills[0];
+
+  const getSkillIcon = (icon: string) => {
+    switch (icon) {
+      case 'Globe':
+        return <Code size={18} />;
+      case 'Layout':
+        return <Layout size={18} />;
+      case 'Film':
+        return <Film size={18} />;
+      case 'Terminal':
+        return <Terminal size={18} />;
+      default:
+        return <Zap size={18} />;
+    }
+  };
+
   return (
-    <section id="pipeline" className="py-24 px-6 sm:px-12 md:px-16 max-w-7xl mx-auto">
-      {/* Design 2 Technical Hero Card Container */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.8 }}
-        className="hero-card mx-auto"
+    <section id="pipeline" className="py-20 px-6 sm:px-12 md:px-16 max-w-7xl mx-auto">
+      {/* Section Header */}
+      <div className="mb-12">
+        <div className="font-mono text-xs font-bold tracking-widest text-[#ef4444] mb-2 uppercase">
+          ENGINEERING CAPABILITIES
+        </div>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-3">
+          Pipeline &amp; Technical Architecture
+        </h2>
+        <p className="text-sm sm:text-base text-[#a3a3a3] max-w-2xl">
+          Continuous execution loop connecting conceptual ideation, rapid implementation, and production deployment.
+        </p>
+      </div>
+
+      {/* 1. Technical Pipeline Nodes (IDEAS -> BUILD -> SHIP) */}
+      <div
+        ref={pipelineRef}
+        className="relative glass-card p-8 sm:p-12 border border-white/10 rounded-2xl bg-[#0a0a0d]/90 overflow-hidden mb-12"
       >
-        <div className="hero-grid" />
+        {/* Animated Circuit SVG Line */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
+          <defs>
+            <linearGradient id="circuit-gradient" ref={gradientRef} gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#ef4444" stopOpacity="0" />
+              <stop offset="50%" stopColor="#ef4444" stopOpacity="1" />
+              <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <path
+            ref={glowPathRef}
+            fill="none"
+            stroke="url(#circuit-gradient)"
+            strokeWidth="4"
+            className="opacity-75 blur-[2px]"
+          />
+          <path
+            ref={corePathRef}
+            fill="none"
+            stroke="url(#circuit-gradient)"
+            strokeWidth="2"
+            className="opacity-90"
+          />
+        </svg>
 
-        {/* 3-Node Animated Icon Pipeline */}
-        <div ref={pipelineRef} className="icon-pipeline">
-          <svg className="beam-svg">
-            <defs>
-              <filter id="glow-pipeline" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="3" result="blur" />
-                <feComposite in="SourceGraphic" in2="blur" operator="over" />
-              </filter>
-              <linearGradient id="beam-gradient-main" gradientUnits="userSpaceOnUse" y1="0%" y2="0%">
-                <stop offset="0%" stopColor="#b04090" stopOpacity="0" />
-                <stop offset="20%" stopColor="#b04090" stopOpacity="0.8" />
-                <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
-                <stop offset="80%" stopColor="#c8a0e0" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#c8a0e0" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-
-            <path
-              ref={glowPathRef}
-              stroke="url(#beam-gradient-main)"
-              strokeWidth="3.5"
-              filter="url(#glow-pipeline)"
-              fill="none"
-              strokeLinecap="round"
-            />
-            <path
-              ref={corePathRef}
-              stroke="url(#beam-gradient-main)"
-              strokeWidth="1.2"
-              fill="none"
-              strokeLinecap="round"
-            />
-          </svg>
-
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10 text-center md:text-left">
           {/* Node 1: IDEAS */}
-          <div className="flex flex-col items-center gap-3 z-10">
-            <div ref={nodeStackRef} className="icon-node node-light-right" id="node-stack">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <polygon points="12 2 2 7 12 12 22 7 12 2" />
-                <polyline points="2 17 12 22 22 17" />
-                <polyline points="2 12 12 17 22 12" />
-              </svg>
+          <div
+            ref={nodeStackRef}
+            className="p-6 rounded-xl bg-black/60 border border-white/10 relative group hover:border-[#ef4444]/50 transition-all"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <span className="font-mono text-xs font-bold text-[#ef4444]">STAGE 01</span>
+              <span className="w-2 h-2 rounded-full bg-[#ef4444]" />
             </div>
-            <span className="text-[10px] font-mono tracking-ultra uppercase text-white/80">
-              IDEAS
-            </span>
+            <h3 className="text-xl font-bold text-white mb-2">IDEATION &amp; ARCHITECTURE</h3>
+            <p className="text-xs text-[#a3a3a3] leading-relaxed">
+              Deconstructing problem requirements, planning state machines, choosing clean primitives, and drafting wireframes.
+            </p>
           </div>
-
-          <div className="pipeline-line -mt-6" />
 
           {/* Node 2: BUILD */}
-          <div className="flex flex-col items-center gap-3 z-10">
-            <div className="relative">
-              <div ref={splashRef} className="splash" />
-              <div ref={nodeXRef} className="icon-node-center" id="node-x">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                  <polyline points="16 18 22 12 16 6" />
-                  <polyline points="8 6 2 12 8 18" />
-                  <line x1="10" y1="19" x2="14" y2="5" />
-                </svg>
-              </div>
+          <div
+            ref={nodeXRef}
+            className="p-6 rounded-xl bg-black/60 border border-white/10 relative group hover:border-[#ef4444]/50 transition-all"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <span className="font-mono text-xs font-bold text-[#ef4444]">STAGE 02</span>
+              <span className="w-2 h-2 rounded-full bg-[#ef4444] animate-pulse" />
             </div>
-            <span className="text-[11px] font-mono tracking-ultra uppercase text-white font-bold">
-              BUILD
-            </span>
+            <h3 className="text-xl font-bold text-white mb-2">DETERMINISTIC BUILD</h3>
+            <p className="text-xs text-[#a3a3a3] leading-relaxed">
+              Writing atomic components, setting up fast build pipelines in Vite, and implementing smooth micro-interactions.
+            </p>
           </div>
-
-          <div className="pipeline-line right -mt-6" />
 
           {/* Node 3: SHIP */}
-          <div className="flex flex-col items-center gap-3 z-10">
-            <div ref={nodeShieldRef} className="icon-node node-light-left" id="node-shield">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                <polyline points="9 12 11 14 15 10" />
-              </svg>
+          <div
+            ref={nodeShieldRef}
+            className="p-6 rounded-xl bg-black/60 border border-white/10 relative group hover:border-[#ef4444]/50 transition-all"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <span className="font-mono text-xs font-bold text-[#ef4444]">STAGE 03</span>
+              <span className="w-2 h-2 rounded-full bg-[#2ecc71]" />
             </div>
-            <span className="text-[10px] font-mono tracking-ultra uppercase text-white/80">
-              SHIP
-            </span>
+            <h3 className="text-xl font-bold text-white mb-2">OPTIMIZATION &amp; DEPLOY</h3>
+            <p className="text-xs text-[#a3a3a3] leading-relaxed">
+              Cross-browser verification, bundle pruning, sub-100ms response profiling, and zero-downtime production deployment.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Interactive Architecture Discipline Explorer */}
+      <div className="glass-card p-6 sm:p-10 border border-white/10 rounded-2xl bg-[#0a0a0d]/80">
+        <div className="mb-6">
+          <div className="font-mono text-xs font-bold text-[#ef4444] tracking-wider mb-1">
+            CONSTITUTIONAL CAPABILITIES EXPLORER
+          </div>
+          <div className="text-sm text-[#737373]">
+            Select a discipline to inspect core proficiencies, technical stack, and architecture breakdown.
           </div>
         </div>
 
-        {/* Narrative Heading */}
-        <div className="relative z-10 max-w-xl mx-auto space-y-3">
-          <span className="text-[11px] font-mono uppercase tracking-ultra text-[#8e8e9f]">
-            WORKFLOW ARCHITECTURE
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-light text-white leading-tight">
-            I turn ideas{' '}
-            <strong className="block font-normal mt-1 bg-gradient-to-r from-white via-[#e8c0e8] to-[#a98597] bg-clip-text text-transparent">
-              into things that work.
-            </strong>
-          </h2>
-          <p className="text-sm text-white/60 max-w-md mx-auto leading-relaxed">
-            From initial logic and 3D scenes to clean responsive deployments built for speed, delight, and real human use.
-          </p>
-        </div>
-
-        {/* Tech Brands Badges Row */}
-        <div className="relative z-10 flex items-center justify-center gap-6 sm:gap-12 flex-wrap mt-14 pt-8 border-t border-white/[0.06] text-white/40 text-xs font-mono">
-          {brands.map((b) => (
-            <div key={b.name} className="flex items-center gap-2 hover:text-white/80 transition-colors">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#b04090]" />
-              <span>{b.name}</span>
-              <span className="text-[10px] opacity-40">({b.badge})</span>
-            </div>
+        {/* Tab Controls */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {skills.map((skill, i) => (
+            <button
+              key={skill.id}
+              onClick={() => setActiveSkillId(skill.id)}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg font-mono text-xs font-bold transition-all cursor-pointer ${
+                activeSkillId === skill.id
+                  ? 'bg-[#ef4444] text-black shadow-[0_2px_12px_rgba(239,68,68,0.35)]'
+                  : 'bg-white/[0.04] text-[#a3a3a3] hover:text-white hover:bg-white/[0.08] border border-white/10'
+              }`}
+            >
+              <span>{getSkillIcon(skill.icon)}</span>
+              <span>LAYER 0{i + 1} // {skill.name.toUpperCase()}</span>
+            </button>
           ))}
         </div>
-      </motion.div>
+
+        {/* Inspector Pane */}
+        <div className="p-6 rounded-xl bg-black/60 border border-white/10 space-y-5">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <div className="font-mono text-xs font-bold text-[#ef4444] tracking-wider mb-1">
+                DISCIPLINE PROFILE
+              </div>
+              <h4 className="text-2xl font-bold text-white">
+                {activeSkill.name}
+              </h4>
+            </div>
+
+            {/* Proficiency Meter */}
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-xs text-[#a3a3a3]">Proficiency Index:</span>
+              <span className="font-mono text-lg font-bold text-[#ef4444]">
+                {activeSkill.proficiency}%
+              </span>
+            </div>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+            <div
+              style={{ width: `${activeSkill.proficiency}%` }}
+              className="bg-[#ef4444] h-full transition-all duration-700 ease-out"
+            />
+          </div>
+
+          <p className="text-sm sm:text-base text-[#c4c4cb] leading-relaxed">
+            {activeSkill.description}
+          </p>
+
+          <div>
+            <div className="font-mono text-xs text-[#737373] uppercase tracking-wider mb-2">
+              Primary Technologies &amp; Tooling
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {activeSkill.technologies.map((tech) => (
+                <span
+                  key={tech}
+                  className="px-3 py-1 rounded bg-white/[0.06] border border-white/10 font-mono text-xs text-white"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
