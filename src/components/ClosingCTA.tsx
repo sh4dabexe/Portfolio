@@ -28,7 +28,7 @@ export const ClosingCTA: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-24 overflow-hidden bg-[#050505] border-t border-white/10">
+    <section id="contact" className="py-14 sm:py-24 overflow-hidden bg-[#050505] border-t border-white/10">
       {/* 1. Continuous Technical Marquee Strip */}
       <div className="w-full border-y border-white/10 py-4 overflow-hidden select-none bg-[#09090c]">
         <div className="flex gap-8 whitespace-nowrap font-mono text-xs uppercase tracking-widest text-[#737373] animate-marquee">
@@ -48,7 +48,7 @@ export const ClosingCTA: React.FC = () => {
       </div>
 
       {/* 2. Direct Dispatch Box */}
-      <div className="max-w-4xl mx-auto px-6 sm:px-12 pt-20 pb-12 text-center space-y-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-12 pt-14 sm:pt-20 pb-8 sm:pb-12 text-center space-y-8">
         <div>
           <div className="font-mono text-xs font-bold tracking-widest text-[#ef4444] mb-2 uppercase">
             DIRECT CONNECT
@@ -62,8 +62,8 @@ export const ClosingCTA: React.FC = () => {
         </div>
 
         {/* Dispatch Action Box */}
-        <div className="p-6 sm:p-8 rounded-2xl bg-[#0a0a0d] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 max-w-xl mx-auto shadow-2xl">
-          <div className="flex items-center gap-3 text-left">
+        <div className="p-5 sm:p-8 rounded-2xl bg-[#0a0a0d] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 max-w-xl mx-auto shadow-2xl">
+          <div className="flex items-center gap-3 text-left w-full sm:w-auto justify-center sm:justify-start">
             <div className="w-10 h-10 rounded-full bg-[#ef4444]/15 border border-[#ef4444]/30 flex items-center justify-center text-[#ef4444]">
               <Send size={18} />
             </div>

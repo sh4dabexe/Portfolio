@@ -6,7 +6,7 @@
  *   1. Waits for React to mount the full page into the DOM and webfonts to load.
  *   2. The real page is captured into a blueprint (boxes, text, media, rulers, guides).
  *   3. The page is blanked and rebuilt in real-time by a swarm of multiplayer cursors (Ada, Linus, etc.).
- *   4. "Tour" smoothly scrolls down through the build.
+ *   4. "Tour" smoothly scrolls down through the build (on both desktop and Android/mobile).
  *   5. "Go live" / ESC / user scroll restores the live, interactive React page.
  */
 (function() {
@@ -19,10 +19,12 @@
         delayMs: 400,
         waitFonts: true,
         visibilityTimeoutMs: 8000,
-        // true = boots once per session so returning visitors get direct access
-        // can be overridden with ?swarm=1 or the UI "Rebuild ⚡" button
         oncePerSession: false
     };
+
+    var savedScrollBehavior = null;
+    var scrollGuardInterval = null;
+    var cancelListenersBound = false;
 
     function q(name) {
         try {
@@ -130,54 +132,165 @@
         });
     }
 
+    // Temporarily force instant scroll behavior so Tour incremental scrollBy()
+    // is never swallowed by CSS smooth-scroll on Android Chrome / WebViews.
+    function enableInstantScrollForSwarm() {
+        if (savedScrollBehavior === null) {
+            savedScrollBehavior = document.documentElement.style.scrollBehavior || "";
+        }
+        document.documentElement.style.scrollBehavior = "auto";
+        if (document.body) {
+            document.body.style.scrollBehavior = "auto";
+        }
+        if (scrollGuardInterval) clearInterval(scrollGuardInterval);
+        scrollGuardInterval = setInterval(function() {
+            if (!window[KEY] || !window[KEY].app || window[KEY].app.dead) {
+                document.documentElement.style.scrollBehavior = savedScrollBehavior;
+                if (document.body) document.body.style.scrollBehavior = "";
+                savedScrollBehavior = null;
+                clearInterval(scrollGuardInterval);
+                scrollGuardInterval = null;
+            }
+        }, 400);
+    }
+
+    // Make the vendored swarm HUD responsive on narrow Android / mobile viewports
+    function injectMobileHudStyles(host) {
+        if (!host || !host.shadowRoot) return;
+        if (host.shadowRoot.querySelector('style[data-swarm-mobile="1"]')) return;
+        var st = document.createElement("style");
+        st.setAttribute("data-swarm-mobile", "1");
+        st.textContent =
+            "@media (max-width: 640px) {" +
+            "  .hud {" +
+            "    left: 8px; right: 8px; bottom: 12px;" +
+            "    transform: translateY(18px);" +
+            "    width: auto; max-width: calc(100vw - 16px);" +
+            "    flex-wrap: wrap; justify-content: center;" +
+            "    gap: 6px; padding: 8px 10px;" +
+            "    white-space: normal; font-size: 11px;" +
+            "  }" +
+            "  .hud.on { transform: translateY(0); }" +
+            "  .hud .dots { display: none; }" +
+            "  .hud .txt, .hud .status { font-size: 11px; gap: 5px; }" +
+            "  .hud .bar { width: 44px; }" +
+            "  .hud button { padding: 6px 9px; font-size: 11px; }" +
+            "  .hud .x { padding: 6px 8px; }" +
+            "}";
+        host.shadowRoot.appendChild(st);
+    }
+
+    function isEventInsideSwarmHud(e) {
+        try {
+            var host = document.querySelector("swarm-rebuild");
+            if (!host) return false;
+            var path = typeof e.composedPath === "function" ? e.composedPath() : [];
+            var hud = host.shadowRoot && host.shadowRoot.querySelector(".hud");
+            if (!hud) return false;
+            for (var i = 0; i < path.length; i++) {
+                if (path[i] === hud) return true;
+            }
+        } catch (_) {}
+        return false;
+    }
+
+    function bindCancelListeners() {
+        if (cancelListenersBound) return;
+        cancelListenersBound = true;
+
+        var cancel = function() {
+            if (!window[KEY] || !window[KEY].app) return;
+            try {
+                window[KEY].app.tour = false;
+            } catch (_) {}
+        };
+
+        // Desktop wheel & keyboard navigation cancel tour
+        window.addEventListener("wheel", cancel, { passive: true });
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "ArrowDown" || e.key === "ArrowUp" ||
+                e.key === "PageDown" || e.key === "PageUp" ||
+                e.key === " " || e.key === "Home" || e.key === "End") {
+                cancel();
+            }
+        });
+
+        // Mobile/Android: ONLY cancel Tour on a deliberate swipe/drag scroll (> 24px),
+        // NOT on casual taps (like tapping "Tap for sound" or HUD controls).
+        var touchStartY = null;
+        var touchIgnored = false;
+        window.addEventListener("touchstart", function(e) {
+            touchIgnored = isEventInsideSwarmHud(e);
+            if (!touchIgnored && e.touches && e.touches.length === 1) {
+                touchStartY = e.touches[0].clientY;
+            } else {
+                touchStartY = null;
+            }
+        }, { passive: true });
+
+        window.addEventListener("touchmove", function(e) {
+            if (touchIgnored || touchStartY === null) return;
+            if (e.touches && e.touches.length === 1) {
+                var dy = Math.abs(e.touches[0].clientY - touchStartY);
+                if (dy > 24) {
+                    touchStartY = null;
+                    cancel();
+                }
+            }
+        }, { passive: true });
+
+        window.addEventListener("touchend", function() {
+            touchStartY = null;
+            touchIgnored = false;
+        }, { passive: true });
+    }
+
+    // Retry enabling Tour until swarm HUD mounts and engine is attached
+    function activateTourWithRetry(attemptsLeft) {
+        if (attemptsLeft <= 0) return;
+        try {
+            var engine = window[KEY];
+            var host = document.querySelector("swarm-rebuild");
+            if (host) injectMobileHudStyles(host);
+
+            if (engine && engine.app && !engine.app.dead && host && host.shadowRoot) {
+                var btn = host.shadowRoot.querySelector('[data-a="tour"]');
+                if (btn && !btn.hidden) {
+                    if (!engine.app.tour) {
+                        btn.click();
+                    }
+                    bindCancelListeners();
+                    return;
+                }
+            }
+        } catch (_) {}
+
+        setTimeout(function() {
+            activateTourWithRetry(attemptsLeft - 1);
+        }, 200);
+    }
+
     async function launchSwarm(isManualTrigger) {
         try {
+            enableInstantScrollForSwarm();
+
             var engine = await loadEngine();
             if (isManualTrigger && engine) {
-                // If already running, restart; otherwise start
                 if (engine.app) {
                     engine.stop(false);
-                    setTimeout(function() {
-                        engine.start();
-                    }, 100);
-                } else {
-                    engine.start();
+                    await new Promise(function(r) {
+                        setTimeout(r, 180);
+                    });
                 }
+                engine.start();
             }
 
             markDone();
 
-            // Auto-start Tour so visitors see smooth scroll-driven building
-            if (window[KEY] && window[KEY].app && !window[KEY].app.tour) {
-                var started = false;
-                var start = function() {
-                    if (started) return;
-                    started = true;
-                    setTimeout(function() {
-                        try {
-                            var host = document.querySelector("swarm-rebuild");
-                            var btn = host && host.shadowRoot && host.shadowRoot.querySelector('[data-a="tour"]');
-                            if (btn && !btn.hidden) btn.click();
-                        } catch (_) {}
-                    }, 400);
-                };
-                var cancel = function() {
-                    if (!window[KEY] || !window[KEY].app) return;
-                    try {
-                        window[KEY].app.tour = false;
-                    } catch (_) {}
-                };
-
-                start();
-
-                window.addEventListener("wheel", cancel, { passive: true });
-                window.addEventListener("touchstart", cancel, { passive: true });
-                document.addEventListener("keydown", function(e) {
-                    if (e.key === "ArrowDown" || e.key === "ArrowUp" ||
-                        e.key === "PageDown" || e.key === "PageUp" ||
-                        e.key === " " || e.key === "Home" || e.key === "End") cancel();
-                });
-            }
+            // Auto-start Tour on both PC and Android so smooth scroll-driven building runs automatically
+            setTimeout(function() {
+                activateTourWithRetry(15);
+            }, 350);
         } catch (err) {
             console.error("[swarm] launch failed", err);
         }
@@ -188,9 +301,8 @@
         if (disabled()) return;
         if (prefersReducedMotion()) return;
         if (alreadyDone()) return;
-        if (window[KEY]) return; // already running
+        if (window[KEY]) return;
 
-        // Ensure DOM and React are rendered
         if (document.readyState !== "complete") {
             await new Promise(function(r) {
                 window.addEventListener("load", r, { once: true });
@@ -241,4 +353,3 @@
         }
     });
 })();
-

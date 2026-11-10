@@ -64,12 +64,12 @@ export const Navbar: React.FC = () => {
         </div>
 
         {/* Right Action Stack */}
-        <div className="flex items-center gap-3">
-          {/* Swarm Rebuild Trigger Button */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Swarm Rebuild Trigger Button (available on all viewports) */}
           <button
             onClick={() => triggerRebuild()}
             title="Trigger multi-cursor building animation"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-semibold bg-[#ef4444]/10 hover:bg-[#ef4444]/20 text-[#ef4444] border border-[#ef4444]/30 hover:border-[#ef4444]/60 transition-all cursor-pointer"
+            className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-semibold bg-[#ef4444]/10 hover:bg-[#ef4444]/20 text-[#ef4444] border border-[#ef4444]/30 hover:border-[#ef4444]/60 transition-all cursor-pointer"
           >
             <Sparkles size={11} />
             <span>REBUILD ⚡</span>
@@ -108,7 +108,7 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer Menu */}
       {mobileOpen && (
-        <div className="fixed inset-x-4 top-20 p-6 rounded-2xl bg-[#0a0a0d]/95 border border-white/10 backdrop-blur-2xl flex flex-col gap-4 lg:hidden shadow-2xl z-50 pointer-events-auto">
+        <div className="fixed inset-x-3 top-16 sm:top-20 p-5 sm:p-6 max-h-[calc(100dvh-5rem)] overflow-y-auto rounded-2xl bg-[#0a0a0d]/95 border border-white/10 backdrop-blur-2xl flex flex-col gap-4 lg:hidden shadow-2xl z-50 pointer-events-auto">
           <div className="flex items-center justify-between pb-3 border-b border-white/10">
             <div className="flex items-center gap-2">
               <span className="brand-monogram">SA</span>

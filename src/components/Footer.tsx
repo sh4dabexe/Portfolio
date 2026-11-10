@@ -8,8 +8,8 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="py-12 px-6 sm:px-12 md:px-16 border-t border-white/10 bg-[#050505] text-xs font-mono text-[#737373]">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer className="py-10 px-4 sm:px-12 md:px-16 border-t border-white/10 bg-[#050505] text-xs font-mono text-[#737373]">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
         {/* Left: SHADAB ALAM + Availability */}
         <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
           <span className="brand-monogram">SA</span>
@@ -26,7 +26,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Center: Social Links */}
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
           {socialLinks.map((social) => (
             <a
               key={social.platform}
@@ -41,7 +41,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Right: Copyright & Back to Top */}
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           <span className="text-[11px] text-[#737373]">
             &copy; {new Date().getFullYear()} Shadab Alam. Designed with Noir &amp; Crimson Op-Art.
           </span>

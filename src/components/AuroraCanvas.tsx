@@ -107,7 +107,7 @@ export const AuroraCanvas: React.FC = () => {
       id="aurora-canvas"
       ref={canvasRef}
       aria-hidden="true"
-      className="absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+      className="pointer-events-none z-0"
     />
   );
 };

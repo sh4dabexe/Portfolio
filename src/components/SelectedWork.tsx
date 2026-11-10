@@ -26,11 +26,11 @@ export const SelectedWork: React.FC = () => {
   });
 
   return (
-    <section id="flagships" className="py-20 px-6 sm:px-12 md:px-16 max-w-7xl mx-auto">
+    <section id="flagships" className="py-12 sm:py-20 px-4 sm:px-12 md:px-16 max-w-7xl mx-auto">
       {/* ------------------------------------------------------------- */}
       {/* 1. FLAGSHIP DEPLOYMENTS SECTION                               */}
       {/* ------------------------------------------------------------- */}
-      <div className="mb-12">
+      <div className="mb-8 sm:mb-12">
         <div className="font-mono text-xs font-bold tracking-widest text-[#ef4444] mb-2 uppercase">
           ARCHITECTURAL SHOWCASE
         </div>
@@ -47,7 +47,7 @@ export const SelectedWork: React.FC = () => {
         <article
           onMouseEnter={() => setHoveredProjectId('dmrc')}
           onMouseLeave={() => setHoveredProjectId(null)}
-          className="relative glass-card p-6 sm:p-10 border border-[#ef4444]/40 bg-gradient-to-b from-[#141416]/90 to-[#0a0a0d]/95 rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
+          className="relative glass-card p-5 sm:p-10 border border-[#ef4444]/40 bg-gradient-to-b from-[#141416]/90 to-[#0a0a0d]/95 rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
         >
           {/* Subtle Crimson Glow */}
           <div
@@ -131,34 +131,34 @@ export const SelectedWork: React.FC = () => {
 
             {/* Right: Interactive Transit Route Simulator Console */}
             <div className="lg:col-span-6">
-              <div className="rounded-xl bg-[#08080c] border border-white/15 p-5 shadow-2xl space-y-4">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-[#f1c40f]/20 border border-[#f1c40f]/40 flex items-center justify-center text-[#f1c40f]">
+              <div className="rounded-xl bg-[#08080c] border border-white/15 p-3.5 sm:p-5 shadow-2xl space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="w-7 h-7 rounded-lg bg-[#f1c40f]/20 border border-[#f1c40f]/40 flex items-center justify-center text-[#f1c40f] shrink-0">
                       <Train size={15} />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <span className="text-xs font-mono font-bold text-white tracking-wide block">METROFLOW CORE</span>
-                      <span className="text-[10px] font-mono text-[#8e8e9f]">DMRC MULTI-LINE ROUTE ENGINE</span>
+                      <span className="text-[10px] font-mono text-[#8e8e9f] block truncate">DMRC MULTI-LINE ROUTE ENGINE</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#2ecc71]/15 border border-[#2ecc71]/30">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#2ecc71]/15 border border-[#2ecc71]/30 shrink-0">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#2ecc71] animate-pulse" />
                     <span className="text-[10px] font-mono text-[#2ecc71] font-semibold">ROUTE ACTIVE</span>
                   </div>
                 </div>
 
                 {/* Route strip */}
-                <div className="p-3.5 rounded-lg bg-[#0e0e14] border border-white/5 space-y-3">
+                <div className="p-3 sm:p-3.5 rounded-lg bg-[#0e0e14] border border-white/5 space-y-3">
                   <div className="flex items-center gap-3">
                     <span className="w-3.5 h-3.5 rounded-full bg-[#f1c40f] ring-4 ring-[#f1c40f]/20 shrink-0" />
-                    <div className="flex-1 flex items-center justify-between">
+                    <div className="flex-1 flex flex-wrap items-center justify-between gap-1.5">
                       <span className="text-xs font-mono font-bold text-white">Kashmere Gate</span>
-                      <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-[#f1c40f]/20 text-[#f1c40f] border border-[#f1c40f]/40">YELLOW LINE</span>
+                      <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-[#f1c40f]/20 text-[#f1c40f] border border-[#f1c40f]/40 shrink-0">YELLOW LINE</span>
                     </div>
                   </div>
 
-                  <div className="ml-1.5 pl-3 border-l-2 border-dashed border-white/20 py-1.5 flex items-center justify-between">
+                  <div className="ml-1.5 pl-3 border-l-2 border-dashed border-white/20 py-1.5 flex flex-wrap items-center justify-between gap-1.5">
                     <div className="flex items-center gap-2 text-[11px] font-mono text-[#c4c4cb]">
                       <span className="text-[#ef4444]">⇄</span>
                       <span>Interchange at Rajiv Chowk</span>
@@ -168,15 +168,15 @@ export const SelectedWork: React.FC = () => {
 
                   <div className="flex items-center gap-3">
                     <span className="w-3.5 h-3.5 rounded-full bg-[#0070f3] ring-4 ring-[#0070f3]/20 shrink-0" />
-                    <div className="flex-1 flex items-center justify-between">
+                    <div className="flex-1 flex flex-wrap items-center justify-between gap-1.5">
                       <span className="text-xs font-mono font-bold text-white">Noida City Centre</span>
-                      <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-[#0070f3]/20 text-[#0070f3] border border-[#0070f3]/40">BLUE LINE</span>
+                      <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-[#0070f3]/20 text-[#0070f3] border border-[#0070f3]/40 shrink-0">BLUE LINE</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Telemetry Footer */}
-                <div className="grid grid-cols-4 gap-2 text-center pt-1">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center pt-1">
                   <div className="bg-[#12121c] p-2 rounded border border-white/5">
                     <span className="text-[8px] font-mono uppercase text-[#8e8e9f] block">Stations</span>
                     <span className="text-xs font-bold font-mono text-white">14</span>
@@ -226,10 +226,10 @@ export const SelectedWork: React.FC = () => {
               </p>
 
               {/* Console preview */}
-              <div className="bg-black/60 border border-white/10 rounded-xl p-4 font-mono text-xs space-y-2 mb-5">
-                <div className="flex items-center justify-between text-[#a3a3a3]">
+              <div className="bg-black/60 border border-white/10 rounded-xl p-3.5 sm:p-4 font-mono text-xs space-y-2 mb-5">
+                <div className="flex flex-wrap items-center justify-between gap-1 text-[#a3a3a3]">
                   <span className="flex items-center gap-1.5">
-                    <Download size={13} className="text-[#ef4444]" />
+                    <Download size={13} className="text-[#ef4444] shrink-0" />
                     <span>Concurrent Workers (4 active)</span>
                   </span>
                   <span className="text-[#2ecc71]">32.4 MB/s</span>
@@ -237,7 +237,7 @@ export const SelectedWork: React.FC = () => {
                 <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
                   <div className="bg-[#ef4444] h-full w-[78%]" />
                 </div>
-                <div className="flex justify-between text-[10px] text-[#737373]">
+                <div className="flex flex-wrap justify-between gap-1 text-[10px] text-[#737373]">
                   <span>yt-dlp stream + FFmpeg pipeline</span>
                   <span>78% complete • ETA 14s</span>
                 </div>
@@ -287,10 +287,10 @@ export const SelectedWork: React.FC = () => {
               </p>
 
               {/* Console preview */}
-              <div className="bg-black/60 border border-white/10 rounded-xl p-4 font-mono text-xs space-y-2 mb-5">
-                <div className="flex items-center justify-between text-[#a3a3a3]">
+              <div className="bg-black/60 border border-white/10 rounded-xl p-3.5 sm:p-4 font-mono text-xs space-y-2 mb-5">
+                <div className="flex flex-wrap items-center justify-between gap-1 text-[#a3a3a3]">
                   <span className="flex items-center gap-1.5">
-                    <ShieldCheck size={13} className="text-[#2ecc71]" />
+                    <ShieldCheck size={13} className="text-[#2ecc71] shrink-0" />
                     <span>Focus Shield Active</span>
                   </span>
                   <span className="text-[#ef4444]">Locked (25m)</span>
@@ -328,7 +328,7 @@ export const SelectedWork: React.FC = () => {
       {/* ------------------------------------------------------------- */}
       {/* 2. CODEBASE MATRIX (BENTO GRID - ALL 9 PROJECTS)              */}
       {/* ------------------------------------------------------------- */}
-      <div id="matrix" className="pt-24">
+      <div id="matrix" className="pt-16 sm:pt-24">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
             <div className="font-mono text-xs font-bold tracking-widest text-[#ef4444] mb-2 uppercase">
@@ -450,22 +450,26 @@ export const SelectedWork: React.FC = () => {
       {/* ------------------------------------------------------------- */}
       <AnimatePresence>
         {activeStoryProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div
+            onClick={() => setActiveStoryProject(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md"
+          >
             <motion.div
+              onClick={(e) => e.stopPropagation()}
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-2xl bg-[#0d0d12] border border-white/20 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6"
+              className="relative w-full max-w-2xl max-h-[90dvh] overflow-y-auto bg-[#0d0d12] border border-white/20 rounded-2xl p-5 sm:p-8 shadow-2xl space-y-5 sm:space-y-6"
             >
               <button
                 onClick={() => setActiveStoryProject(null)}
-                className="absolute top-5 right-5 p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white"
+                className="absolute top-4 right-4 sm:top-5 sm:right-5 p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white"
                 aria-label="Close modal"
               >
                 <X size={18} />
               </button>
 
-              <div>
+              <div className="pr-8">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="font-mono text-xs font-bold text-[#ef4444] px-2 py-0.5 rounded bg-[#ef4444]/10 border border-[#ef4444]/30">
                     {activeStoryProject.number} // {activeStoryProject.category}

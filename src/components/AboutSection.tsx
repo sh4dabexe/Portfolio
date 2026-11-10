@@ -2,9 +2,9 @@ import React from 'react';
 
 export const AboutSection: React.FC = () => {
   return (
-    <section id="about" className="py-20 px-6 sm:px-12 md:px-16 max-w-7xl mx-auto">
+    <section id="about" className="py-12 sm:py-20 px-4 sm:px-12 md:px-16 max-w-7xl mx-auto">
       {/* Section Header */}
-      <div className="mb-12">
+      <div className="mb-8 sm:mb-12">
         <div className="font-mono text-xs font-bold tracking-widest text-[#ef4444] mb-2 uppercase">
           ENGINEER PROFILE
         </div>
@@ -16,7 +16,7 @@ export const AboutSection: React.FC = () => {
         </p>
       </div>
 
-      <div className="glass-card p-6 sm:p-10 border border-white/10 rounded-2xl bg-[#0a0a0d]/80 backdrop-blur-xl">
+      <div className="glass-card p-5 sm:p-10 border border-white/10 rounded-2xl bg-[#0a0a0d]/80 backdrop-blur-xl">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           {/* Left Column: Personal Narrative */}
           <div className="lg:col-span-7 space-y-5">

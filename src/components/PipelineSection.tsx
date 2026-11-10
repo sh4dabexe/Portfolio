@@ -48,14 +48,30 @@ export const PipelineSection: React.FC = () => {
     computePath();
     window.addEventListener('resize', computePath);
 
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined') {
+      ro = new ResizeObserver(computePath);
+      ro.observe(pipeline);
+    }
+
     let frameId: number;
     let progress = 0;
 
     const animatePulse = () => {
       progress = (progress + 0.008) % 1;
       const center = progress * 100;
-      gradient.setAttribute('x1', `${center - 10}%`);
-      gradient.setAttribute('x2', `${center + 10}%`);
+      const isVertical = window.innerWidth < 768;
+      if (isVertical) {
+        gradient.setAttribute('x1', '0%');
+        gradient.setAttribute('x2', '0%');
+        gradient.setAttribute('y1', `${center - 12}%`);
+        gradient.setAttribute('y2', `${center + 12}%`);
+      } else {
+        gradient.setAttribute('y1', '0%');
+        gradient.setAttribute('y2', '0%');
+        gradient.setAttribute('x1', `${center - 10}%`);
+        gradient.setAttribute('x2', `${center + 10}%`);
+      }
       frameId = requestAnimationFrame(animatePulse);
     };
 
@@ -63,6 +79,7 @@ export const PipelineSection: React.FC = () => {
 
     return () => {
       window.removeEventListener('resize', computePath);
+      if (ro) ro.disconnect();
       cancelAnimationFrame(frameId);
     };
   }, []);
@@ -85,9 +102,9 @@ export const PipelineSection: React.FC = () => {
   };
 
   return (
-    <section id="pipeline" className="py-20 px-6 sm:px-12 md:px-16 max-w-7xl mx-auto">
+    <section id="pipeline" className="py-12 sm:py-20 px-4 sm:px-12 md:px-16 max-w-7xl mx-auto">
       {/* Section Header */}
-      <div className="mb-12">
+      <div className="mb-8 sm:mb-12">
         <div className="font-mono text-xs font-bold tracking-widest text-[#ef4444] mb-2 uppercase">
           ENGINEERING CAPABILITIES
         </div>
@@ -102,7 +119,7 @@ export const PipelineSection: React.FC = () => {
       {/* 1. Technical Pipeline Nodes (IDEAS -> BUILD -> SHIP) */}
       <div
         ref={pipelineRef}
-        className="relative glass-card p-8 sm:p-12 border border-white/10 rounded-2xl bg-[#0a0a0d]/90 overflow-hidden mb-12"
+        className="relative glass-card p-5 sm:p-12 border border-white/10 rounded-2xl bg-[#0a0a0d]/90 overflow-hidden mb-8 sm:mb-12"
       >
         {/* Animated Circuit SVG Line */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
@@ -178,7 +195,7 @@ export const PipelineSection: React.FC = () => {
       </div>
 
       {/* 2. Interactive Architecture Discipline Explorer */}
-      <div className="glass-card p-6 sm:p-10 border border-white/10 rounded-2xl bg-[#0a0a0d]/80">
+      <div className="glass-card p-5 sm:p-10 border border-white/10 rounded-2xl bg-[#0a0a0d]/80">
         <div className="mb-6">
           <div className="font-mono text-xs font-bold text-[#ef4444] tracking-wider mb-1">
             CONSTITUTIONAL CAPABILITIES EXPLORER
@@ -194,7 +211,7 @@ export const PipelineSection: React.FC = () => {
             <button
               key={skill.id}
               onClick={() => setActiveSkillId(skill.id)}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg font-mono text-xs font-bold transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg font-mono text-[11px] sm:text-xs font-bold transition-all cursor-pointer ${
                 activeSkillId === skill.id
                   ? 'bg-[#ef4444] text-black shadow-[0_2px_12px_rgba(239,68,68,0.35)]'
                   : 'bg-white/[0.04] text-[#a3a3a3] hover:text-white hover:bg-white/[0.08] border border-white/10'
@@ -207,7 +224,7 @@ export const PipelineSection: React.FC = () => {
         </div>
 
         {/* Inspector Pane */}
-        <div className="p-6 rounded-xl bg-black/60 border border-white/10 space-y-5">
+        <div className="p-4 sm:p-6 rounded-xl bg-black/60 border border-white/10 space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <div className="font-mono text-xs font-bold text-[#ef4444] tracking-wider mb-1">
